@@ -1,0 +1,2 @@
+rootProject.name = "SMSLedger"
+include ':app'
