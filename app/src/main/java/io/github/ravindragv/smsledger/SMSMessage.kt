@@ -1,8 +1,8 @@
 package io.github.ravindragv.smsledger
 
-data class MessageSample(
+data class SMSMessage(
     val msgBody: String,
     val transactionType: MessageParser.TransactionType,
     val accountType: MessageParser.AccountType,
-    val transactionAmount: Float
+    val transactionAmount: Float,
 )
