@@ -68,6 +68,15 @@ object TestConstants {
                 546.00f)
         )
 
+        sampleMessages.add(
+            SMSMessage("Dear customer, transaction number TW0234567891 for Rs2299.00 by " +
+                    "SBI Debit Card X8888 at AMAZON on 17Aug21 at 17:40:30. If not done forward " +
+                    "this SMS to 9223008333 or call 18001111109/9449112211 to block card",
+                MessageParser.TransactionType.DEBIT,
+                MessageParser.AccountType.DEBIT_CARD,
+                2299f)
+        )
+
         return sampleMessages
     }
 }

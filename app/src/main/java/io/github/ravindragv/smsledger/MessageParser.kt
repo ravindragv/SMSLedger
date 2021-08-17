@@ -2,12 +2,12 @@ package io.github.ravindragv.smsledger
 
 class MessageParser {
     private val currencyRegex = Regex("(INR|Rs)[ .]*([0-9]*[,.])*.[0-9]*")
-    private val debitRegex = Regex("(?i)(spent|debited|tx|using)")
+    private val debitRegex = Regex("(?i)(spent|debited|tx|using|for)")
     private val creditRegex = Regex("(?i)(credited|reversed|Contribution)")
     private val avlBalanceRegex = Regex("(?i)(Avl Bal|Balance|Available Balance)")
     private val accTypeRegex = Regex("(?i)(Account|A/c|Acct)")
     private val ccRegex = Regex("(?i)(Credit Card)")
-    private val dcRegex = Regex("(?i)(Debit Card|giftcard)")
+    private val dcRegex = Regex("(?i)(Debit Card|(gift[ ]*card))")
 
     enum class AccountType {
         ACCOUNT,
@@ -37,12 +37,13 @@ class MessageParser {
 
         if (amtTokens.size < 2) {
             // For the mahanubhava who didn't put a delimiter
-            if (amt.value.contains("Rs.")) {
-                val amount = amt.value.replace("Rs.", "")
-                return amount.toFloat()
+            return when {
+                amt.value.contains("Rs.") -> amt.value.replace("Rs.", "").toFloat()
+                amt.value.contains("Rs") -> amt.value.replace("Rs", "").toFloat()
+                amt.value.contains("INR.") -> amt.value.replace("INR.", "").toFloat()
+                amt.value.contains("INR") -> amt.value.replace("INR", "").toFloat()
+                else -> 0.0f
             }
-
-            return 0.0f
         }
 
         val amount = amtTokens[1].replace(",", "")
