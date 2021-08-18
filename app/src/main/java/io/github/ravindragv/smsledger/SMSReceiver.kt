@@ -7,10 +7,12 @@ import android.provider.Telephony
 import android.telephony.SmsMessage
 import android.util.Log
 import io.github.ravindragv.smsledger.data.Transaction
+import io.github.ravindragv.smsledger.data.TransactionDB
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SMSReceiver : BroadcastReceiver() {
-    private var mMsgParser = MessageParser()
-
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent!!.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
             val bundle = intent.extras
@@ -26,23 +28,36 @@ class SMSReceiver : BroadcastReceiver() {
                         msgFrom = msgs[i]!!.originatingAddress.toString()
                         msgBody += msgs[i]!!.messageBody
 
-                        Log.e(MainActivity.LOG_TAG, "message $msgBody from $msgFrom")
+                        Log.e(Constants.LOG_TAG, "message $msgBody from $msgFrom")
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
 
-                prepareMessage(msgBody, msgFrom)
+                // Do this in the background via a coroutine so as to not block the onReceive
+                val scope = CoroutineScope(context = Dispatchers.IO)
+                val pendingResult: PendingResult = goAsync()
+                scope.launch {
+                    prepareMessage(msgBody, msgFrom, context, pendingResult)
+                }
             }
         }
     }
 
-    private fun prepareMessage(msgBody: String, msgFrom: String) {
-        val msg = Transaction(msgBody,
-            mMsgParser.getTransactionType(msgBody),
-            mMsgParser.getAccountType(msgBody),
-            mMsgParser.getTransactionAmt(msgBody))
+    private suspend fun prepareMessage(msgBody: String,
+                                       msgFrom: String,
+                                       context: Context?,
+                                       pendingResult: PendingResult) {
+        val msgParser = MessageParser()
+        val transaction = Transaction(msgBody,
+                            msgParser.getTransactionType(msgBody),
+                            msgParser.getAccountType(msgBody),
+                            msgParser.getTransactionAmt(msgBody))
 
-        Log.e(MainActivity.LOG_TAG, "Parsed message is $msg")
+        Log.e(Constants.LOG_TAG, "Parsed transaction is $transaction")
+
+        val tdb = context?.let { TransactionDB.getInstance(it).transactionDAO() }
+        tdb?.insertTransactions(transaction)
+        pendingResult.finish()
     }
 }

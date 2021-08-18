@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val READ_TELEPHONY = 1
-        const val LOG_TAG = "SMS Ledger"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
