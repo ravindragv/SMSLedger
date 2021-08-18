@@ -12,7 +12,7 @@ class MessageParserUnitTest {
         println("Running testTransactionType tests")
         for (msg in sampleMessages) {
             //println("Test Message ${msg.msgBody}")
-            assertEquals(msg.transactionType, msgParser.getTransactionType(msg.msgBody))
+            assertEquals(msg.transactionType, msgParser.getTransactionType(msg.smsMsg))
         }
     }
 
@@ -24,7 +24,7 @@ class MessageParserUnitTest {
         println("Running testTransactionAmount tests")
         for (msg in sampleMessages) {
             //println("Test Message ${msg.msgBody}")
-            assertEquals(msg.transactionAmount, msgParser.getTransactionAmt(msg.msgBody))
+            assertEquals(msg.transactionAmount, msgParser.getTransactionAmt(msg.smsMsg))
         }
     }
 
@@ -36,7 +36,7 @@ class MessageParserUnitTest {
         println("Running testAccountType tests")
         for (msg in sampleMessages) {
             //println("Test Message ${msg.msgBody}")
-            assertEquals(msg.accountType, msgParser.getAccountType(msg.msgBody))
+            assertEquals(msg.accountType, msgParser.getAccountType(msg.smsMsg))
         }
     }
 }

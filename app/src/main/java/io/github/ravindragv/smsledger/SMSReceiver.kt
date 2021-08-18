@@ -6,6 +6,7 @@ import android.content.Intent
 import android.provider.Telephony
 import android.telephony.SmsMessage
 import android.util.Log
+import io.github.ravindragv.smsledger.data.Transaction
 
 class SMSReceiver : BroadcastReceiver() {
     private var mMsgParser = MessageParser()
@@ -37,7 +38,7 @@ class SMSReceiver : BroadcastReceiver() {
     }
 
     private fun prepareMessage(msgBody: String, msgFrom: String) {
-        val msg = SMSMessage(msgBody,
+        val msg = Transaction(msgBody,
             mMsgParser.getTransactionType(msgBody),
             mMsgParser.getAccountType(msgBody),
             mMsgParser.getTransactionAmt(msgBody))
