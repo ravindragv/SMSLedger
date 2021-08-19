@@ -52,12 +52,13 @@ class SMSReceiver : BroadcastReceiver() {
         val transaction = Transaction(msgBody,
                             msgParser.getTransactionType(msgBody),
                             msgParser.getAccountType(msgBody),
-                            msgParser.getTransactionAmt(msgBody))
+                            msgParser.getTransactionAmt(msgBody),
+                            msgParser.getAccountNumber(msgBody))
 
         Log.e(Constants.LOG_TAG, "Parsed transaction is $transaction")
 
         val tdb = context?.let { TransactionDB.getInstance(it).transactionDAO() }
-        tdb?.insertTransactions(transaction)
+        tdb?.insertTransactions(arrayListOf(transaction))
         pendingResult.finish()
     }
 }

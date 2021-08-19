@@ -41,6 +41,15 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    sourceSets {
+        String testUtilities = 'src/testUtilities'
+        test {
+            java.srcDir testUtilities
+        }
+        androidTest {
+            java.srcDir testUtilities
+        }
+    }
 }
 
 dependencies {
@@ -62,6 +71,9 @@ dependencies {
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
+
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

@@ -8,6 +8,7 @@ class MessageParser {
     private val accTypeRegex = Regex("(?i)(Account|A/c|Acct)")
     private val ccRegex = Regex("(?i)(Credit Card)")
     private val dcRegex = Regex("(?i)(Debit Card|(gift[ ]*card))")
+    private val accNumberRegex = Regex("(ending (with )?[0-9]{3,}|[X]+[0-9]{3,})")
 
     enum class AccountType {
         ACCOUNT,
@@ -36,12 +37,14 @@ class MessageParser {
         val amtTokens = amt.value.split(" ")
 
         if (amtTokens.size < 2) {
+            // Get rid of commas
+            val amount = amt.value.replace(",", "")
             // For the mahanubhava who didn't put a delimiter
             return when {
-                amt.value.contains("Rs.") -> amt.value.replace("Rs.", "").toFloat()
-                amt.value.contains("Rs") -> amt.value.replace("Rs", "").toFloat()
-                amt.value.contains("INR.") -> amt.value.replace("INR.", "").toFloat()
-                amt.value.contains("INR") -> amt.value.replace("INR", "").toFloat()
+                amount.contains("Rs.") -> amount.replace("Rs.", "").toFloat()
+                amount.contains("Rs") -> amount.replace("Rs", "").toFloat()
+                amount.contains("INR.") -> amount.replace("INR.", "").toFloat()
+                amount.contains("INR") -> amount.replace("INR", "").toFloat()
                 else -> 0.0f
             }
         }
@@ -56,5 +59,10 @@ class MessageParser {
             creditRegex.find(message, 0) != null -> TransactionType.CREDIT
             else -> TransactionType.INVALID
         }
+    }
+
+    fun getAccountNumber(message: String) : Int {
+        val accNum = accNumberRegex.find(message, 0)?: return -1
+        return accNum.value.replace("[^0-9]".toRegex(), "").toInt()
     }
 }

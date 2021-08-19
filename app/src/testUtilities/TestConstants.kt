@@ -14,7 +14,17 @@ object TestConstants {
                     "9840909000 from your registered mobile number.",
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.CREDIT_CARD,
-                153.25f)
+                153.25f,
+                1111)
+        )
+
+        sampleMessages.add(
+            Transaction("Dear Cardmember, payment of Rs.123,456.78 credited towards your " +
+                    "YES BANK Credit Card ending 1111 through NEFT on 11/02/21",
+                MessageParser.TransactionType.CREDIT,
+                MessageParser.AccountType.CREDIT_CARD,
+                123456.78f,
+                1111)
         )
 
         sampleMessages.add(
@@ -23,7 +33,8 @@ object TestConstants {
                     "INR 9916. Not You ? Call 912261606161.",
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.DEBIT_CARD,
-                35f)
+                35f,
+                2222)
         )
 
         sampleMessages.add(
@@ -32,7 +43,8 @@ object TestConstants {
                     "Call on 18002662 for dispute or SMS BLOCK 4005 to 9215676766.",
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.CREDIT_CARD,
-                437.77f)
+                437.77f,
+                3333)
         )
 
         sampleMessages.add(
@@ -41,7 +53,8 @@ object TestConstants {
                     "SMS BLOCK 955 to 9215676766",
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.ACCOUNT,
-                7021.74f)
+                7021.74f,
+                444)
         )
 
         sampleMessages.add(
@@ -50,7 +63,8 @@ object TestConstants {
                     "Balance: INR 3,45,678.29",
                 MessageParser.TransactionType.CREDIT,
                 MessageParser.AccountType.ACCOUNT,
-                10000f)
+                10000f,
+                555)
         )
 
         sampleMessages.add(
@@ -59,7 +73,8 @@ object TestConstants {
                     "Available Balance: INR 4,56,789.20",
                 MessageParser.TransactionType.CREDIT,
                 MessageParser.AccountType.ACCOUNT,
-                234567.00f)
+                234567.00f,
+                666)
         )
 
         sampleMessages.add(
@@ -68,7 +83,8 @@ object TestConstants {
                     "(UPI Ref no 116812367817).-Indian Bank",
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.ACCOUNT,
-                546.00f)
+                546.00f,
+                7777)
         )
 
         sampleMessages.add(
@@ -77,7 +93,8 @@ object TestConstants {
                     "this SMS to 9223008333 or call 18001111109/9449112211 to block card",
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.DEBIT_CARD,
-                2299f)
+                2299f,
+                8888)
         )
 
         return sampleMessages

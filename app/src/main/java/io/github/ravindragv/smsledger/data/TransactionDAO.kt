@@ -7,11 +7,14 @@ import io.github.ravindragv.smsledger.data.Transaction
 @Dao
 interface TransactionDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTransactions(vararg msgs: Transaction)
+    suspend fun insertTransactions(transactions: ArrayList<Transaction>)
 
     @Delete
     suspend fun delete(msg: Transaction)
 
     @Query("SELECT * FROM ${Constants.TRANSACTIONS_ROOM_DB_NAME}")
     suspend fun getAllTransactions() : List<Transaction>
+
+    @Query("SELECT * FROM ${Constants.TRANSACTIONS_ROOM_DB_NAME} where accNumber = :accNum")
+    suspend fun getAllTransactions(accNum: Int) : List<Transaction>
 }

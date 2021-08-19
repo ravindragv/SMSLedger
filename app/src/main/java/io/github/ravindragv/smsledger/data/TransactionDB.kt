@@ -6,7 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import io.github.ravindragv.scratch.TransactionDAO
 
-@Database(entities = arrayOf(Transaction::class), version = 1)
+@Database(entities = arrayOf(Transaction::class),
+          version = 2)
 abstract class TransactionDB : RoomDatabase(){
 
     abstract fun transactionDAO(): TransactionDAO
@@ -26,6 +27,7 @@ abstract class TransactionDB : RoomDatabase(){
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context.applicationContext,
                 TransactionDB::class.java, "Transaction.db")
+                .fallbackToDestructiveMigration() // TBD Fix me with a proper migration
                 .build()
     }
 }
