@@ -57,8 +57,12 @@ class SMSReceiver : BroadcastReceiver() {
 
         Log.e(Constants.LOG_TAG, "Parsed transaction is $transaction")
 
-        val tdb = context?.let { TransactionDB.getInstance(it).transactionDAO() }
-        tdb?.insertTransactions(arrayListOf(transaction))
+        if (transaction.transactionType != MessageParser.TransactionType.INVALID &&
+                transaction.accountType != MessageParser.AccountType.UNKNOWN &&
+                transaction.accNumber != -1) {
+            val tdb = context?.let { TransactionDB.getInstance(it).transactionDAO() }
+            tdb?.insertTransactions(arrayListOf(transaction))
+        }
         pendingResult.finish()
     }
 }
