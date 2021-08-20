@@ -1,4 +1,4 @@
-package io.github.ravindragv.scratch
+package io.github.ravindragv.smsledger.data
 
 import androidx.room.*
 import io.github.ravindragv.smsledger.Constants
