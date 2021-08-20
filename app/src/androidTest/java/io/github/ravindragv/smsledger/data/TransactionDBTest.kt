@@ -52,4 +52,13 @@ class TransactionDBTest {
             }
         }
     }
+
+    @Test
+    fun testGetAllAccounts() = runBlocking {
+        val testTransactions = testTransactionList.distinctBy { it.accNumber }
+        val testAccNumbers = testTransactions.map{it.accNumber}
+        val accNumbers = transactionDAO.getAllAccounts()
+        Log.e("SMSLedger Test", "$accNumbers")
+        assert(accNumbers.containsAll(testAccNumbers))
+    }
 }

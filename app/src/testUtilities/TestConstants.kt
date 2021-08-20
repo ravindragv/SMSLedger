@@ -3,8 +3,8 @@ package io.github.ravindragv.smsledger
 import io.github.ravindragv.smsledger.data.Transaction
 
 object TestConstants {
-    fun getTestMessageSamples(): ArrayList<Transaction> {
-        val sampleMessages = ArrayList<Transaction>()
+    fun getTestMessageSamples(): List<Transaction> {
+        val sampleMessages: MutableList<Transaction> = mutableListOf()
 
         sampleMessages.add(
             Transaction("Transaction Alert: INR 153.25 has been spent on your YES BANK " +
