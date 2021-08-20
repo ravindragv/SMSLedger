@@ -8,7 +8,7 @@ class MessageParser {
     private val accTypeRegex = Regex("(?i)(Account|A/c|Acct)")
     private val ccRegex = Regex("(?i)(Credit Card)")
     private val dcRegex = Regex("(?i)(Debit Card|(gift[ ]*card))")
-    private val accNumberRegex = Regex("(ending (with )?[0-9]{3,}|[X]+[0-9]{3,})")
+    private val accNumberRegex = Regex("(?i)(ending (with )?[0-9]{3,}|[X]+[0-9]{3,})")
 
     enum class AccountType {
         ACCOUNT,

@@ -97,6 +97,18 @@ object TestConstants {
                 8888)
         )
 
+        sampleMessages.add(
+            Transaction("Your HSBC credit card xxxxx9999 is used at amazon for INR " +
+                    "1568.00 on 06/08/21. Available limit - INR 124177.52; outstanding - " +
+                    "INR 25822.48. If you suspect this is fraudulent, call +914061268002 Or " +
+                    "SMS  BLOCK<space>CC Last 4 digit of your card to 575750 from your " +
+                    "registered number.",
+                MessageParser.TransactionType.DEBIT,
+                MessageParser.AccountType.CREDIT_CARD,
+                1568f,
+                9999)
+        )
+
         return sampleMessages
     }
 }
