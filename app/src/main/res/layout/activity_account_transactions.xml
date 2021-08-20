@@ -4,25 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity"
+    tools:context=".activities.AccountTransactions"
     android:gravity="center"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_transactions"
-        android:id="@+id/tv_no_transactions"
-        android:visibility="gone"
-        tools:visibility="gone"
-        android:textStyle="bold"
-        android:textSize="@dimen/accounts_no_transaction_text_size"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/accounts"
-        android:id="@+id/tv_accounts"
+        android:text="@string/transactions"
+        android:id="@+id/tv_acc_transactions"
         android:layout_gravity="center"
         android:textStyle="bold"
         android:textSize="@dimen/accounts_text_sz"/>
@@ -39,12 +29,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:id="@+id/ll_accounts">
+            android:id="@+id/ll_acc_transactions">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/rv_accounts_list"/>
+                android:id="@+id/rv_acc_transactions"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

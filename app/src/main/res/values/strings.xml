@@ -5,4 +5,5 @@
 
     <string name="sample_acc_num">XXX6578</string>
     <string name="right_arrow">></string>
+    <string name="transactions">Transactions</string>
 </resources>

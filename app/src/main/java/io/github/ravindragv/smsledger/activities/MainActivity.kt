@@ -1,6 +1,7 @@
-package io.github.ravindragv.smsledger
+package io.github.ravindragv.smsledger.activities
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.github.ravindragv.smsledger.Constants
 import io.github.ravindragv.smsledger.adapters.AccountsItemsAdapter
 import io.github.ravindragv.smsledger.data.TransactionDB
 import io.github.ravindragv.smsledger.databinding.ActivityMainBinding
@@ -82,7 +84,16 @@ class MainActivity : AppCompatActivity() {
             binding.llAccounts.visibility = View.VISIBLE
 
             binding.rvAccountsList.layoutManager = LinearLayoutManager(applicationContext)
-            binding.rvAccountsList.adapter = AccountsItemsAdapter(applicationContext, accountsList)
+            val accountsAdapter = AccountsItemsAdapter(applicationContext, accountsList)
+            binding.rvAccountsList.adapter = accountsAdapter
+            accountsAdapter.setOnClickListener(object: AccountsItemsAdapter.OnClickListener{
+                override fun onClick(accNumber: Int) {
+                    val intent = Intent(this@MainActivity, AccountTransactions::class.java)
+                    intent.putExtra(Constants.ACCOUNT_NUMBER, accNumber)
+
+                    startActivity(intent)
+                }
+            })
         } else {
             binding.tvNoTransactions.visibility = View.VISIBLE
             binding.llAccounts.visibility = View.GONE
