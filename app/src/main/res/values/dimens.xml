@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="accounts_text_sz">20sp</dimen>
+    <dimen name="accounts_card_view_stroke_width">1dp</dimen>
+    <dimen name="accounts_card_view_padding">10dp</dimen>
+    <dimen name="accounts_card_view_corner_radius">10dp</dimen>
+    <dimen name="accounts_card_view_margin_horizontal">30dp</dimen>
+    <dimen name="accounts_no_transaction_text_size">20sp</dimen>
+
+    <dimen name="item_account_text_size">20sp</dimen>
+    <dimen name="item_account_tv_acc_num_padding">3dp</dimen>
+    <dimen name="item_account_tv_acc_num_margin_left">20dp</dimen>
+</resources>

@@ -1,19 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:id="@+id/tvMsg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/no_transactions"
+        android:id="@+id/tv_no_transactions"
+        android:visibility="gone"
+        tools:visibility="gone"
+        android:textStyle="bold"
+        android:textSize="@dimen/accounts_no_transaction_text_size"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/accounts"
+        android:id="@+id/tv_accounts"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/accounts_text_sz"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/accounts_card_view_corner_radius"
+        app:strokeColor="@color/black"
+        app:strokeWidth="@dimen/accounts_card_view_stroke_width"
+        android:layout_marginHorizontal="@dimen/accounts_card_view_margin_horizontal"
+        android:padding="@dimen/accounts_card_view_padding">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/ll_accounts">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rv_accounts_list"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

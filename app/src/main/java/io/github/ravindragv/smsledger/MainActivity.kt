@@ -5,15 +5,21 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import io.github.ravindragv.smsledger.adapters.AccountsItemsAdapter
+import io.github.ravindragv.smsledger.data.TransactionDB
 import io.github.ravindragv.smsledger.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private var mTelephonyPermissionGranted = false
-    private val mSMSReceiver = SMSReceiver()
-
+    private lateinit var mTransactionDB: TransactionDB
     private lateinit var binding: ActivityMainBinding
 
     companion object {
@@ -27,6 +33,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         requestPermissionsToReadSMS()
+
+        mTransactionDB = TransactionDB.getInstance(this)
+
+        val scope = CoroutineScope(context = Dispatchers.Main)
+        scope.launch {
+            setUpAccountsView()
+        }
     }
 
     private fun requestPermissionsToReadSMS() {
@@ -60,4 +73,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private suspend fun setUpAccountsView() {
+        val accountsList = mTransactionDB.transactionDAO().getAllAccounts()
+        Log.e(Constants.LOG_TAG, "$accountsList")
+
+        if (accountsList.isNotEmpty()) {
+            binding.tvNoTransactions.visibility = View.GONE
+            binding.llAccounts.visibility = View.VISIBLE
+
+            binding.rvAccountsList.layoutManager = LinearLayoutManager(applicationContext)
+            binding.rvAccountsList.adapter = AccountsItemsAdapter(applicationContext, accountsList)
+        } else {
+            binding.tvNoTransactions.visibility = View.VISIBLE
+            binding.llAccounts.visibility = View.GONE
+        }
+    }
 }
