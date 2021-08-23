@@ -51,13 +51,24 @@ class SMSReceiver : BroadcastReceiver() {
                                        context: Context?,
                                        pendingResult: PendingResult) {
         val msgParser = MessageParser()
+
+        val transactionType = msgParser.getTransactionType(msgBody)
+        var pos = msgParser.getPos(msgBody)
+        if (pos.isEmpty()) {
+            pos = when (transactionType) {
+                MessageParser.TransactionType.CREDIT -> "credit"
+                MessageParser.TransactionType.DEBIT -> "debit"
+                else -> "Unknown POS"
+            }
+        }
         val transaction = Transaction(msgBody,
                                     msgFrom,
                                     ts,
-                                    msgParser.getTransactionType(msgBody),
+                                    transactionType,
                                     msgParser.getAccountType(msgBody),
                                     msgParser.getTransactionAmt(msgBody),
-                                    msgParser.getAccountNumber(msgBody))
+                                    msgParser.getAccountNumber(msgBody),
+                                    pos)
 
         Log.e(Constants.LOG_TAG, "Parsed transaction is $transaction")
 

@@ -51,4 +51,15 @@ class MessageParserUnitTest {
             assertEquals(msg.accNumber, msgParser.getAccountNumber(msg.smsMsg))
         }
     }
+
+    @Test
+    fun testPos() {
+        val msgParser = MessageParser()
+        val sampleMessages = TestConstants.getTestMessageSamples()
+
+        println("Running testPos tests")
+        for (msg in sampleMessages) {
+            assertEquals(msg.pos, msgParser.getPos(msg.smsMsg))
+        }
+    }
 }

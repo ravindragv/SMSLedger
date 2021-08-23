@@ -9,6 +9,18 @@ class MessageParser {
     private val ccRegex = Regex("(?i)(Credit Card)")
     private val dcRegex = Regex("(?i)(Debit Card|(gift[ ]*card))")
     private val accNumberRegex = Regex("(?i)(ending (with )?[0-9]{3,}|[X]+[0-9]{3,})")
+    /* There has to be better way -
+        The ordering of the regex here is critical, i.e., if we see credited to first then don't
+        look for anything else. If we see something like "at POS for" then don't look for anything
+        else.
+
+        This is not very robust since any new type of message can break this
+    */
+    private val posRegexList = listOf(Regex("(?i)(credited to [^\\s]+)"),
+                                            Regex("(?i)((at).*(for ))"),
+                                            Regex("(?i)((at).*(on ))"),
+                                            Regex("(?i)(Info: [^.]+)"))
+    private val posAffix = listOf("credited to ", "at ", " on ", " for ", "Info: ")
 
     enum class AccountType {
         ACCOUNT,
@@ -30,6 +42,21 @@ class MessageParser {
             dcRegex.find(message, 0) != null -> AccountType.DEBIT_CARD
             else -> AccountType.UNKNOWN
         }
+    }
+
+    fun getPos(message: String): String {
+        var pos = ""
+        for (pattern in posRegexList) {
+            val loc = pattern.find(message, 0)
+            if (loc != null) {
+                pos = loc.value
+                for (affix in posAffix) {
+                    pos = pos.replace(affix, "")
+                }
+                break
+            }
+        }
+        return pos
     }
 
     fun getTransactionAmt(message: String) : Float {

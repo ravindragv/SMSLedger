@@ -20,7 +20,8 @@ object TestConstants {
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.CREDIT_CARD,
                 153.25f,
-                1111)
+                1111,
+                "AMAZON PAY INDIA PRIVA")
         )
 
         sampleMessages.add(
@@ -31,7 +32,8 @@ object TestConstants {
                 MessageParser.TransactionType.CREDIT,
                 MessageParser.AccountType.CREDIT_CARD,
                 123456.78f,
-                1111)
+                1111,
+                "")
         )
 
         sampleMessages.add(
@@ -43,7 +45,8 @@ object TestConstants {
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.DEBIT_CARD,
                 35f,
-                2222)
+                2222,
+                "Dunzo Digital PVT Lim")
         )
 
         sampleMessages.add(
@@ -55,7 +58,8 @@ object TestConstants {
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.CREDIT_CARD,
                 437.77f,
-                3333)
+                3333,
+                "Amazon")
         )
 
         sampleMessages.add(
@@ -67,7 +71,8 @@ object TestConstants {
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.ACCOUNT,
                 7021.74f,
-                444)
+                444,
+                "BIL*NEFT*0018")
         )
 
         sampleMessages.add(
@@ -79,7 +84,8 @@ object TestConstants {
                 MessageParser.TransactionType.CREDIT,
                 MessageParser.AccountType.ACCOUNT,
                 10000f,
-                555)
+                555,
+                "NEFT-112126839GN00131-LIBERT")
         )
 
         sampleMessages.add(
@@ -91,7 +97,8 @@ object TestConstants {
                 MessageParser.TransactionType.CREDIT,
                 MessageParser.AccountType.ACCOUNT,
                 234567.00f,
-                666)
+                666,
+                "NEFT-DOR1436664 0034-PAYPAL")
         )
 
         sampleMessages.add(
@@ -103,7 +110,8 @@ object TestConstants {
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.ACCOUNT,
                 546.00f,
-                7777)
+                7777,
+                "robin@wayne")
         )
 
         sampleMessages.add(
@@ -115,7 +123,8 @@ object TestConstants {
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.DEBIT_CARD,
                 2299f,
-                8888)
+                8888,
+                "AMAZON")
         )
 
         sampleMessages.add(
@@ -129,7 +138,8 @@ object TestConstants {
                 MessageParser.TransactionType.DEBIT,
                 MessageParser.AccountType.CREDIT_CARD,
                 1568f,
-                9999)
+                9999,
+                "amazon")
         )
 
         return sampleMessages

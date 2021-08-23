@@ -17,13 +17,24 @@ class SMSInboxWorker(private val appContext: Context, workerParams: WorkerParame
     private val mTdb = TransactionDB.getInstance(appContext).transactionDAO()
 
     private suspend fun prepareMessage(msgBody: String, msgFrom: String, ts: Long) {
+        val transactionType = mMsgParser.getTransactionType(msgBody)
+        var pos = mMsgParser.getPos(msgBody)
+        if (pos.isEmpty()) {
+            pos = when (transactionType) {
+                MessageParser.TransactionType.CREDIT -> "credit"
+                MessageParser.TransactionType.DEBIT -> "debit"
+                else -> "Unknown POS"
+            }
+        }
+
         val msg = Transaction(msgBody,
             msgFrom,
             ts,
-            mMsgParser.getTransactionType(msgBody),
+            transactionType,
             mMsgParser.getAccountType(msgBody),
             mMsgParser.getTransactionAmt(msgBody),
-            mMsgParser.getAccountNumber(msgBody))
+            mMsgParser.getAccountNumber(msgBody),
+            pos)
 
 
         if (msg.transactionType != MessageParser.TransactionType.INVALID) {

@@ -21,6 +21,7 @@ class AccountTransactionsItemsAdapter (private val context: Context,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is AccountTransactionsItemsAdapter.AccountTransactionViewHolder) {
             holder.binding.tvAccTransAmt.text = list[position].transactionAmount.toString()
+            holder.binding.tvAccTransPos.text = list[position].pos
 
             val textColor = when (list[position].transactionType) {
                 MessageParser.TransactionType.CREDIT -> ContextCompat.getColor(context, R.color.green)
