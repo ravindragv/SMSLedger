@@ -18,6 +18,7 @@ class SMSReceiver : BroadcastReceiver() {
             val bundle = intent.extras
             val msgs: Array<SmsMessage?>?
             var msgFrom = ""
+            var ts = 0L
             if (bundle != null) {
                 var msgBody = ""
                 try {
@@ -27,7 +28,7 @@ class SMSReceiver : BroadcastReceiver() {
                         msgs[i] = SmsMessage.createFromPdu(pdus[i] as ByteArray)
                         msgFrom = msgs[i]!!.originatingAddress.toString()
                         msgBody += msgs[i]!!.messageBody
-
+                        ts = msgs[i]!!.timestampMillis
                         Log.e(Constants.LOG_TAG, "message $msgBody from $msgFrom")
                     }
                 } catch (e: Exception) {
@@ -38,7 +39,7 @@ class SMSReceiver : BroadcastReceiver() {
                 val scope = CoroutineScope(context = Dispatchers.IO)
                 val pendingResult: PendingResult = goAsync()
                 scope.launch {
-                    prepareMessage(msgBody, msgFrom, context, pendingResult)
+                    prepareMessage(msgBody, msgFrom, ts, context, pendingResult)
                 }
             }
         }
@@ -46,14 +47,17 @@ class SMSReceiver : BroadcastReceiver() {
 
     private suspend fun prepareMessage(msgBody: String,
                                        msgFrom: String,
+                                       ts: Long,
                                        context: Context?,
                                        pendingResult: PendingResult) {
         val msgParser = MessageParser()
         val transaction = Transaction(msgBody,
-                            msgParser.getTransactionType(msgBody),
-                            msgParser.getAccountType(msgBody),
-                            msgParser.getTransactionAmt(msgBody),
-                            msgParser.getAccountNumber(msgBody))
+                                    msgFrom,
+                                    ts,
+                                    msgParser.getTransactionType(msgBody),
+                                    msgParser.getAccountType(msgBody),
+                                    msgParser.getTransactionAmt(msgBody),
+                                    msgParser.getAccountNumber(msgBody))
 
         Log.e(Constants.LOG_TAG, "Parsed transaction is $transaction")
 
@@ -61,7 +65,7 @@ class SMSReceiver : BroadcastReceiver() {
                 transaction.accountType != MessageParser.AccountType.UNKNOWN &&
                 transaction.accNumber != -1) {
             val tdb = context?.let { TransactionDB.getInstance(it).transactionDAO() }
-            tdb?.insertTransactions(arrayListOf(transaction))
+            tdb?.insertTransactions(listOf(transaction))
         }
         pendingResult.finish()
     }

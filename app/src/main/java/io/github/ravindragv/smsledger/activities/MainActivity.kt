@@ -1,6 +1,7 @@
 package io.github.ravindragv.smsledger.activities
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +12,12 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import io.github.ravindragv.smsledger.Constants
+import io.github.ravindragv.smsledger.SMSInboxWorker
 import io.github.ravindragv.smsledger.adapters.AccountsItemsAdapter
 import io.github.ravindragv.smsledger.data.TransactionDB
 import io.github.ravindragv.smsledger.databinding.ActivityMainBinding
@@ -26,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val READ_TELEPHONY = 1
+        const val IS_INBOX_READ = "is_inbox_read"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,15 +51,44 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun readInbox() {
+        val isInboxRead = getPreferences(Context.MODE_PRIVATE)
+            .getBoolean(IS_INBOX_READ, false)
+        if (!isInboxRead) {
+            val inboxReader: WorkRequest = OneTimeWorkRequestBuilder<SMSInboxWorker>().build()
+            val workManager = WorkManager.getInstance(this)
+
+            workManager.enqueue(inboxReader)
+            workManager.getWorkInfoByIdLiveData(inboxReader.id)
+                .observe(this, { info ->
+                    if (info != null && info.state == WorkInfo.State.SUCCEEDED) {
+                        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+                        with (sharedPref.edit()) {
+                            putBoolean(IS_INBOX_READ, true)
+                            apply()
+                        }
+
+                        val scope = CoroutineScope(context = Dispatchers.Main)
+                        scope.launch {
+                            setUpAccountsView()
+                        }
+                    }
+                })
+        }
+    }
+
     private fun requestPermissionsToReadSMS() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECEIVE_SMS)
+            == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
             == PackageManager.PERMISSION_GRANTED) {
             mTelephonyPermissionGranted = true
+            readInbox()
         } else {
             ActivityCompat.requestPermissions(
                 this,
-                arrayOf(Manifest.permission.RECEIVE_SMS),
+                arrayOf(Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS),
                 READ_TELEPHONY
             )
         }
@@ -68,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == READ_TELEPHONY) {
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mTelephonyPermissionGranted = true
+                readInbox()
             } else {
                 Toast.makeText(this, "Need Telephony permissions to read SMS!!",
                     Toast.LENGTH_LONG).show()

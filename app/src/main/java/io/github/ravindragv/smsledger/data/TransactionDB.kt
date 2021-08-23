@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = arrayOf(Transaction::class),
-          version = 2)
+          version = 3)
 abstract class TransactionDB : RoomDatabase(){
 
     abstract fun transactionDAO(): TransactionDAO

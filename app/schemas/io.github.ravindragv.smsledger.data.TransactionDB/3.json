@@ -1,0 +1,80 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "75effa60a2d72b00d1b534bd6ee016ad",
+    "entities": [
+      {
+        "tableName": "transactions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`smsMsg` TEXT NOT NULL, `sender` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `transactionType` TEXT NOT NULL, `accountType` TEXT NOT NULL, `transactionAmount` REAL NOT NULL, `accNumber` INTEGER NOT NULL, PRIMARY KEY(`sender`, `timestamp`))",
+        "fields": [
+          {
+            "fieldPath": "smsMsg",
+            "columnName": "smsMsg",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sender",
+            "columnName": "sender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionType",
+            "columnName": "transactionType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountType",
+            "columnName": "accountType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionAmount",
+            "columnName": "transactionAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accNumber",
+            "columnName": "accNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "sender",
+            "timestamp"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_transactions_accNumber",
+            "unique": false,
+            "columnNames": [
+              "accNumber"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transactions_accNumber` ON `${TABLE_NAME}` (`accNumber`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '75effa60a2d72b00d1b534bd6ee016ad')"
+    ]
+  }
+}

@@ -45,9 +45,14 @@ class TransactionDBTest {
     fun testGetAllTransactionsForAccNum() = runBlocking {
         val accNumOccurences = testTransactionList.groupingBy { it.accNumber }.eachCount()
 
+        Log.e("SMSLedger Test", "Account number occurences $accNumOccurences")
+        println("Account number occurences $accNumOccurences")
         for (accNum in accNumOccurences) {
             if (accNum.value > 1) {
                 Log.e("SMSLedger Test", "${accNum.key} is repeated ${accNum.value} times")
+                println("${accNum.key} is repeated ${accNum.value} times")
+                val oc = transactionDAO.getAllTransactions(accNum.key).size
+                println("oc is $oc")
                 assertEquals(transactionDAO.getAllTransactions(accNum.key).size, accNum.value)
             }
         }
