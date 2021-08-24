@@ -11,7 +11,7 @@ class MessageParserUnitTest {
 
         println("Running testTransactionType tests")
         for (msg in sampleMessages) {
-            //println("Test Message ${msg.msgBody}")
+            //println("Test Message ${msg.smsMsg}")
             assertEquals(msg.transactionType, msgParser.getTransactionType(msg.smsMsg))
         }
     }

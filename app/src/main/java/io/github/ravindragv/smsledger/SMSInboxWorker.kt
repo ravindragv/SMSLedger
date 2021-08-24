@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import io.github.ravindragv.smsledger.Constants.LOG_TAG
 import io.github.ravindragv.smsledger.data.Transaction
 import io.github.ravindragv.smsledger.data.TransactionDB
 import kotlinx.coroutines.CoroutineScope
@@ -17,28 +18,11 @@ class SMSInboxWorker(private val appContext: Context, workerParams: WorkerParame
     private val mTdb = TransactionDB.getInstance(appContext).transactionDAO()
 
     private suspend fun prepareMessage(msgBody: String, msgFrom: String, ts: Long) {
-        val transactionType = mMsgParser.getTransactionType(msgBody)
-        var pos = mMsgParser.getPos(msgBody)
-        if (pos.isEmpty()) {
-            pos = when (transactionType) {
-                MessageParser.TransactionType.CREDIT -> "credit"
-                MessageParser.TransactionType.DEBIT -> "debit"
-                else -> "Unknown POS"
-            }
-        }
-
-        val msg = Transaction(msgBody,
-            msgFrom,
-            ts,
-            transactionType,
-            mMsgParser.getAccountType(msgBody),
-            mMsgParser.getTransactionAmt(msgBody),
-            mMsgParser.getAccountNumber(msgBody),
-            pos)
-
-
-        if (msg.transactionType != MessageParser.TransactionType.INVALID) {
-            mTdb.insertTransactions(listOf(msg))
+        val transaction: Transaction? = mMsgParser.getTransaction(msgBody, msgFrom, ts)
+        if  (transaction != null) {
+            mTdb.insertTransactions(listOf(transaction))
+        } else {
+            Log.e(LOG_TAG, "Invalid transaction for msg $msgBody")
         }
     }
 
@@ -63,10 +47,11 @@ class SMSInboxWorker(private val appContext: Context, workerParams: WorkerParame
                         when (cursor.getColumnName(i)) {
                             "body" -> msgBody = cursor.getString(i)
                             "address" -> msgFrom = cursor.getString(i)
-                            "date_sent" -> ts = cursor.getLong(i)
+                            "date" -> ts = cursor.getLong(i)
                         }
                     }
                     // use msgData
+                    Log.e(LOG_TAG, "SMSMSG $msgData")
                     val scope = CoroutineScope(context = Dispatchers.IO)
                     scope.launch {
                         prepareMessage(msgBody, msgFrom, ts)

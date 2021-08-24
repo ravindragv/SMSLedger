@@ -45,38 +45,15 @@ class SMSReceiver : BroadcastReceiver() {
         }
     }
 
-    private suspend fun prepareMessage(msgBody: String,
-                                       msgFrom: String,
-                                       ts: Long,
-                                       context: Context?,
+    private suspend fun prepareMessage(msgBody: String, msgFrom: String, ts: Long,context: Context?,
                                        pendingResult: PendingResult) {
         val msgParser = MessageParser()
-
-        val transactionType = msgParser.getTransactionType(msgBody)
-        var pos = msgParser.getPos(msgBody)
-        if (pos.isEmpty()) {
-            pos = when (transactionType) {
-                MessageParser.TransactionType.CREDIT -> "credit"
-                MessageParser.TransactionType.DEBIT -> "debit"
-                else -> "Unknown POS"
-            }
-        }
-        val transaction = Transaction(msgBody,
-                                    msgFrom,
-                                    ts,
-                                    transactionType,
-                                    msgParser.getAccountType(msgBody),
-                                    msgParser.getTransactionAmt(msgBody),
-                                    msgParser.getAccountNumber(msgBody),
-                                    pos)
-
-        Log.e(Constants.LOG_TAG, "Parsed transaction is $transaction")
-
-        if (transaction.transactionType != MessageParser.TransactionType.INVALID &&
-                transaction.accountType != MessageParser.AccountType.UNKNOWN &&
-                transaction.accNumber != -1) {
+        val transaction: Transaction? = msgParser.getTransaction(msgBody, msgFrom, ts)
+        if  (transaction != null) {
             val tdb = context?.let { TransactionDB.getInstance(it).transactionDAO() }
             tdb?.insertTransactions(listOf(transaction))
+        } else {
+            Log.e(Constants.LOG_TAG, "Invalid transaction for msg $msgBody")
         }
         pendingResult.finish()
     }

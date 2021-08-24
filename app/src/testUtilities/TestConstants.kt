@@ -142,6 +142,18 @@ object TestConstants {
                 "amazon")
         )
 
+        sampleMessages.add(
+            Transaction("[BNT] Dear Amazon urgently recruiting for part-time jobs, you can " +
+                    "earn 3000-7000 Rs every day ,Click here to get yours: wa.me/917830741675",
+                sentBy,
+                timeStampOne,
+                MessageParser.TransactionType.INVALID,
+                MessageParser.AccountType.UNKNOWN,
+                0.0f,
+                -1,
+                "")
+        )
+
         return sampleMessages
     }
 }
