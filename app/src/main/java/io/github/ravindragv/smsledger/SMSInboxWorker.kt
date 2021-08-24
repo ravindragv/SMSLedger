@@ -51,7 +51,6 @@ class SMSInboxWorker(private val appContext: Context, workerParams: WorkerParame
                         }
                     }
                     // use msgData
-                    Log.e(LOG_TAG, "SMSMSG $msgData")
                     val scope = CoroutineScope(context = Dispatchers.IO)
                     scope.launch {
                         prepareMessage(msgBody, msgFrom, ts)
