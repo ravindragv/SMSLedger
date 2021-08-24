@@ -20,11 +20,11 @@ class MessageParser {
 
         This is not very robust since any new type of message can break this
     */
-    private val posRegexList = listOf(Regex("(?i)(credited to [^\\s]+)"),
+    private val posRegexList = listOf(Regex("(?i)(credited to (a/c no)*(\\.)*(\\s)*[^\\s]+)"),
                                             Regex("(?i)((at).*(for ))"),
                                             Regex("(?i)((at).*(on ))"),
-                                            Regex("(?i)(Info: [^.]+)"))
-    private val posAffix = listOf("credited to ", "at ", " on ", " for ", "Info: ")
+                                            Regex("(?i)(Info:(\\s)*[^\\.]+)"))
+    private val posAffix = listOf("credited to ", "at ", " on ", " for ", "Info:")
 
     enum class AccountType {
         ACCOUNT,
