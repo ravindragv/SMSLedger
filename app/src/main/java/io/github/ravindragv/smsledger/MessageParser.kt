@@ -21,10 +21,10 @@ class MessageParser {
         This is not very robust since any new type of message can break this
     */
     private val posRegexList = listOf(Regex("(?i)(credited to (a/c no)*(\\.)*(\\s)*[^\\s]+)"),
+                                            Regex("(?i)(Info:(\\s)*[^\\.]+)"),
                                             Regex("(?i)((at).*(for ))"),
-                                            Regex("(?i)((at).*(on ))"),
-                                            Regex("(?i)(Info:(\\s)*[^\\.]+)"))
-    private val posAffix = listOf("credited to ", "at ", " on ", " for ", "Info:")
+                                            Regex("(?i)((at).*(on ))"))
+    private val posAffix = listOf("credited to ", "Info:", "at ", " on ", " for ")
 
     enum class AccountType {
         ACCOUNT,
@@ -125,7 +125,6 @@ class MessageParser {
         val transactionType = getTransactionType(message)
 
         if (TransactionType.INVALID == transactionType) return null
-
         var pos = getPos(message)
         if (pos.isEmpty()) {
             pos = when (transactionType) {
