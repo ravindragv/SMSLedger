@@ -6,8 +6,23 @@
     <dimen name="accounts_card_view_corner_radius">10dp</dimen>
     <dimen name="accounts_card_view_margin_horizontal">30dp</dimen>
     <dimen name="accounts_no_transaction_text_size">20sp</dimen>
+    <dimen name="ll_account_margin_horizontal">10dp</dimen>
+    <dimen name="ll_item_account_margin_vertical">5dp</dimen>
 
     <dimen name="item_account_text_size">20sp</dimen>
     <dimen name="item_account_tv_acc_num_padding">3dp</dimen>
     <dimen name="item_account_tv_acc_num_margin_left">20dp</dimen>
+    <dimen name="item_account_cv_margin">2.5dp</dimen>
+    <dimen name="item_account_cv_elevation">8dp</dimen>
+    <dimen name="item_account_cv_max_elevation">10dp</dimen>
+    <dimen name="item_account_cv_corner_radius">4dp</dimen>
+
+    <dimen name="ll_account_transactions_margin_horizontal">10dp</dimen>
+
+    <dimen name="item_account_transaction_text_sz">17sp</dimen>
+    <dimen name="item_account_transaction_cv_margin">2.5dp</dimen>
+    <dimen name="item_account_transaction_cv_elevation">8dp</dimen>
+    <dimen name="item_account_transaction_cv_max_elevation">10dp</dimen>
+    <dimen name="item_account_transaction_cv_corner_radius">4dp</dimen>
+    <dimen name="item_account_tv_acc_trans_pos_marginStartEnd">15dp</dimen>
 </resources>

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:backgroundTint="@color/light_grey">
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,24 +28,16 @@
         android:textStyle="bold"
         android:textSize="@dimen/accounts_text_sz"/>
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/accounts_card_view_corner_radius"
-        app:strokeColor="@color/black"
-        app:strokeWidth="@dimen/accounts_card_view_stroke_width"
-        android:layout_marginHorizontal="@dimen/accounts_card_view_margin_horizontal"
-        android:padding="@dimen/accounts_card_view_padding">
-        <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/ll_accounts"
+        android:layout_marginHorizontal="@dimen/ll_account_margin_horizontal">
+
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/ll_accounts">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/rv_accounts_list"/>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+            android:id="@+id/rv_accounts_list"/>
+    </LinearLayout>
 </LinearLayout>
