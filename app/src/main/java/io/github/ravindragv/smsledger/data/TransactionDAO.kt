@@ -10,7 +10,7 @@ interface TransactionDAO {
     suspend fun insertTransactions(transactions: List<Transaction>)
 
     @Delete
-    suspend fun delete(msg: Transaction)
+    suspend fun delete(msg: List<Transaction>)
 
     @Query("SELECT * FROM ${Constants.TRANSACTIONS_ROOM_DB_NAME}")
     suspend fun getAllTransactions() : List<Transaction>

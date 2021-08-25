@@ -21,8 +21,25 @@ class SMSInboxWorker(private val appContext: Context, workerParams: WorkerParame
         val transaction: Transaction? = mMsgParser.getTransaction(msgBody, msgFrom, ts)
         if  (transaction != null) {
             mTdb.insertTransactions(listOf(transaction))
-        } else {
-            Log.e(LOG_TAG, "Invalid transaction for msg $msgBody")
+        }
+    }
+
+    private suspend fun reCheckDbForSmallAccNumbers() {
+        val accList = mTdb.getAllAccounts()
+        for (smallAccNum in accList) {
+            if (smallAccNum < 1000) {
+                for (accNum in accList) {
+                    if (accNum != smallAccNum &&
+                        accNum.toString().contains(smallAccNum.toString())) {
+                        val smallAccTrans = mTdb.getAllTransactions(smallAccNum)
+                        mTdb.delete(smallAccTrans)
+                        for (transaction in smallAccTrans) {
+                            transaction.accNumber = accNum
+                        }
+                        mTdb.insertTransactions(smallAccTrans)
+                    }
+                }
+            }
         }
     }
 
@@ -56,6 +73,11 @@ class SMSInboxWorker(private val appContext: Context, workerParams: WorkerParame
                         prepareMessage(msgBody, msgFrom, ts)
                     }
                 } while (cursor.moveToNext())
+
+                val scope = CoroutineScope(context = Dispatchers.IO)
+                scope.launch {
+                    reCheckDbForSmallAccNumbers()
+                }
             } else {
                 // empty box, no SMS
                 Log.e("SMSInboxWorker", "Inbox is empty")

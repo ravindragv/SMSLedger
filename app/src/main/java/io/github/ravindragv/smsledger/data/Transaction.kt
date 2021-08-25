@@ -16,6 +16,6 @@ data class Transaction(
     val transactionType: MessageParser.TransactionType,
     val accountType: MessageParser.AccountType,
     val transactionAmount: Float,
-    val accNumber: Int,
+    var accNumber: Int,
     val pos: String
 )

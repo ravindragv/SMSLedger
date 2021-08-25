@@ -51,7 +51,18 @@ class SMSReceiver : BroadcastReceiver() {
         val transaction: Transaction? = msgParser.getTransaction(msgBody, msgFrom, ts)
         if  (transaction != null) {
             val tdb = context?.let { TransactionDB.getInstance(it).transactionDAO() }
-            tdb?.insertTransactions(listOf(transaction))
+            if (tdb != null) {
+                if (transaction.accNumber < 1000) {
+                    val uniqueAccNums = tdb.getAllAccounts()
+                    for (accNum in uniqueAccNums) {
+                        if (accNum.toString().contains(transaction.accNumber.toString())) {
+                            transaction.accNumber = accNum
+                            break
+                        }
+                    }
+                }
+                tdb.insertTransactions(listOf(transaction))
+            }
         } else {
             Log.e(Constants.LOG_TAG, "Invalid transaction for msg $msgBody")
         }
