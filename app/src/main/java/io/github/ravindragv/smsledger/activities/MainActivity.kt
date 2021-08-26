@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             workManager.enqueue(inboxReader)
             workManager.getWorkInfoByIdLiveData(inboxReader.id)
                 .observe(this, { info ->
-                    if (info != null && info.state == WorkInfo.State.SUCCEEDED) {
+                    if (info != null && info.state.isFinished && info.state == WorkInfo.State.SUCCEEDED) {
                         val sharedPref = getPreferences(Context.MODE_PRIVATE)
                         with (sharedPref.edit()) {
                             putBoolean(IS_INBOX_READ, true)

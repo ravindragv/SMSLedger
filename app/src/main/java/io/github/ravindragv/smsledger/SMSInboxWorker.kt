@@ -11,6 +11,7 @@ import io.github.ravindragv.smsledger.data.TransactionDB
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class SMSInboxWorker(private val appContext: Context, workerParams: WorkerParameters)
     : Worker(appContext, workerParams){
@@ -24,19 +25,23 @@ class SMSInboxWorker(private val appContext: Context, workerParams: WorkerParame
         }
     }
 
-    private suspend fun reCheckDbForSmallAccNumbers() {
-        val accList = mTdb.getAllAccounts()
-        for (smallAccNum in accList) {
-            if (smallAccNum < 1000) {
-                for (accNum in accList) {
-                    if (accNum != smallAccNum &&
-                        accNum.toString().contains(smallAccNum.toString())) {
-                        val smallAccTrans = mTdb.getAllTransactions(smallAccNum)
-                        mTdb.delete(smallAccTrans)
-                        for (transaction in smallAccTrans) {
-                            transaction.accNumber = accNum
+    private fun reCheckDbForSmallAccNumbers() {
+        runBlocking {
+            val accList = mTdb.getAllAccounts()
+            for (smallAccNum in accList) {
+                if (smallAccNum < 1000) {
+                    Log.e(LOG_TAG, "smallAccNum is $smallAccNum")
+                    for (accNum in accList) {
+                        if (accNum != smallAccNum &&
+                            accNum.toString().contains(smallAccNum.toString())
+                        ) {
+                            val smallAccTrans = mTdb.getAllTransactions(smallAccNum)
+                            mTdb.deleteAllTransactions(smallAccNum)
+                            for (transaction in smallAccTrans) {
+                                transaction.accNumber = accNum
+                            }
+                            mTdb.insertTransactions(smallAccTrans)
                         }
-                        mTdb.insertTransactions(smallAccTrans)
                     }
                 }
             }
@@ -74,10 +79,7 @@ class SMSInboxWorker(private val appContext: Context, workerParams: WorkerParame
                     }
                 } while (cursor.moveToNext())
 
-                val scope = CoroutineScope(context = Dispatchers.IO)
-                scope.launch {
-                    reCheckDbForSmallAccNumbers()
-                }
+                reCheckDbForSmallAccNumbers()
             } else {
                 // empty box, no SMS
                 Log.e("SMSInboxWorker", "Inbox is empty")

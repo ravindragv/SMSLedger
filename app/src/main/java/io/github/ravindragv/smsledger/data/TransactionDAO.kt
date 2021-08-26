@@ -9,8 +9,8 @@ interface TransactionDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTransactions(transactions: List<Transaction>)
 
-    @Delete
-    suspend fun delete(msg: List<Transaction>)
+    @Query("DELETE FROM ${Constants.TRANSACTIONS_ROOM_DB_NAME} WHERE accNumber = :accNum")
+    suspend fun deleteAllTransactions(accNum: Int)
 
     @Query("SELECT * FROM ${Constants.TRANSACTIONS_ROOM_DB_NAME}")
     suspend fun getAllTransactions() : List<Transaction>
