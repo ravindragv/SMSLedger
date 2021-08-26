@@ -52,6 +52,16 @@ class AccountTransactionsItemsAdapter (private val context: Context,
         }
     }
 
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(holder)
+
+        // If the view is getting recycled then hide the transaction detailed view if visible
+        if (holder is AccountTransactionViewHolder && holder.msgDetailsVisible) {
+            holder.msgDetailsVisible = false
+            holder.binding.llMsgDetails.visibility = View.GONE
+        }
+    }
+
     override fun getItemCount(): Int {
         return list.size
     }
