@@ -15,7 +15,7 @@ interface TransactionDAO {
     @Query("SELECT * FROM ${Constants.TRANSACTIONS_ROOM_DB_NAME}")
     suspend fun getAllTransactions() : List<Transaction>
 
-    @Query("SELECT * FROM ${Constants.TRANSACTIONS_ROOM_DB_NAME} where accNumber = :accNum")
+    @Query("SELECT * FROM ${Constants.TRANSACTIONS_ROOM_DB_NAME} WHERE accNumber = :accNum ORDER BY timestamp DESC")
     suspend fun getAllTransactions(accNum: Int) : List<Transaction>
 
     @Query("SELECT DISTINCT accNumber FROM ${Constants.TRANSACTIONS_ROOM_DB_NAME}")
