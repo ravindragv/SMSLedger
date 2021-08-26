@@ -22,9 +22,10 @@ class MessageParser {
     */
     private val posRegexList = listOf(Regex("(?i)(credited to (a/c no)*(\\.)*(\\s)*[^\\s]+)"),
                                             Regex("(?i)(Info:(\\s)*[^\\.]+)"),
+                                            Regex("(?i)([a-z0-9\\.\\-]+@[a-z0-9]+)"),
                                             Regex("(?i)((at).*(for ))"),
                                             Regex("(?i)((at).*(on ))"))
-    private val posAffix = listOf("credited to ", "Info:", "at ", " on ", " for ")
+    private val posAffix = listOf("credited to ", "Info: ", "Info:", "at ", " on ", " for ")
 
     enum class AccountType {
         ACCOUNT,
