@@ -17,6 +17,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import io.github.ravindragv.smsledger.Constants
+import io.github.ravindragv.smsledger.R
 import io.github.ravindragv.smsledger.SMSInboxWorker
 import io.github.ravindragv.smsledger.adapters.AccountsItemsAdapter
 import io.github.ravindragv.smsledger.data.TransactionDB
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        val isInboxRead = getPreferences(Context.MODE_PRIVATE).getBoolean(IS_INBOX_READ, false)
+        setUpViews(isInboxRead)
         requestPermissionsToReadSMS()
 
         mTransactionDB = TransactionDB.getInstance(this)
@@ -49,6 +52,19 @@ class MainActivity : AppCompatActivity() {
         scope.launch {
             setUpAccountsView()
         }
+    }
+
+    private fun setUpViews(isInboxRead: Boolean) {
+        //Log.e(Constants.LOG_TAG, "isInboxRead $isInboxRead")
+        binding.llAccountsBuilding.visibility = View.VISIBLE
+        if (!isInboxRead) {
+            binding.tvNoTransactions.setText(R.string.reading_inbox)
+            binding.lpInboxReading.visibility = View.VISIBLE
+        } else {
+            binding.tvNoTransactions.setText(R.string.no_transactions)
+            binding.lpInboxReading.visibility = View.GONE
+        }
+        binding.llAccounts.visibility = View.GONE
     }
 
     private fun readInbox() {
@@ -106,8 +122,8 @@ class MainActivity : AppCompatActivity() {
                 mTelephonyPermissionGranted = true
                 readInbox()
             } else {
-                Toast.makeText(this, "Need Telephony permissions to read SMS!!",
-                    Toast.LENGTH_LONG).show()
+                binding.tvNoTransactions.setText(R.string.permission_required)
+                binding.lpInboxReading.visibility = View.GONE
             }
         }
     }
@@ -117,7 +133,7 @@ class MainActivity : AppCompatActivity() {
         Log.e(Constants.LOG_TAG, "$accountsList")
 
         if (accountsList.isNotEmpty()) {
-            binding.tvNoTransactions.visibility = View.GONE
+            binding.llAccountsBuilding.visibility = View.GONE
             binding.llAccounts.visibility = View.VISIBLE
 
             binding.rvAccountsList.layoutManager = LinearLayoutManager(applicationContext)
@@ -131,9 +147,6 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             })
-        } else {
-            binding.tvNoTransactions.visibility = View.VISIBLE
-            binding.llAccounts.visibility = View.GONE
         }
     }
 }

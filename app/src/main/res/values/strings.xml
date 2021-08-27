@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">SMS Ledger</string>
-    <string name="no_transactions">No Transactions. Nothing show yet!</string>
+    <string name="no_transactions">No transaction. Nothing to show yet!</string>
     <string name="accounts">Accounts</string>
+    <string name="reading_inbox">Reading Inbox</string>
+    <string name="permission_required">Please provide permissions to read SMS</string>
+    <string name="loading_transactions">Fetching transactions for account</string>
 
     <string name="sample_acc_num">XXX6578</string>
     <string name="right_arrow">></string>

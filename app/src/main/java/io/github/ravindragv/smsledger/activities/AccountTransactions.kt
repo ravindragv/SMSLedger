@@ -36,6 +36,9 @@ class AccountTransactions : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
 
+        binding.llAccTransactions.visibility = View.GONE
+        binding.llTransactionsBuilding.visibility = View.VISIBLE
+
         if (accNum != -1) {
             val ioScope = CoroutineScope(Dispatchers.IO)
             ioScope.launch {
@@ -56,6 +59,7 @@ class AccountTransactions : AppCompatActivity() {
         binding.rvAccTransactions.layoutManager = LinearLayoutManager(applicationContext)
         binding.rvAccTransactions.adapter = AccountTransactionsItemsAdapter(applicationContext,
                                                                             mAccTransactionsList)
+        binding.llTransactionsBuilding.visibility = View.GONE
         binding.llAccTransactions.visibility = View.VISIBLE
     }
 }

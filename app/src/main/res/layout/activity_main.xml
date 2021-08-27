@@ -8,32 +8,48 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/ll_accounts_building"
+        android:layout_marginHorizontal="@dimen/ll_account_margin_horizontal"
+        android:gravity="center_horizontal">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_transactions"
         android:id="@+id/tv_no_transactions"
-        android:visibility="gone"
-        tools:visibility="gone"
         android:textStyle="bold"
         android:textSize="@dimen/accounts_no_transaction_text_size"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/accounts"
-        android:id="@+id/tv_accounts"
-        android:layout_gravity="center"
-        android:textStyle="bold"
-        android:textSize="@dimen/accounts_text_sz"
-        android:layout_marginVertical="@dimen/accounts_text_margin_vertical"/>
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:id="@+id/lp_inbox_reading"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/ll_accounts"
-        android:layout_marginHorizontal="@dimen/ll_account_margin_horizontal">
+        android:layout_marginHorizontal="@dimen/ll_account_margin_horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/accounts"
+            android:id="@+id/tv_accounts"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="@dimen/accounts_text_sz"
+            android:layout_marginVertical="@dimen/accounts_text_margin_vertical"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

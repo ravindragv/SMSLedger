@@ -12,6 +12,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/ll_transactions_building"
+        android:layout_marginHorizontal="@dimen/ll_account_margin_horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading_transactions"
+            android:id="@+id/tv_loading_transactions"
+            android:textStyle="bold"
+            android:textSize="@dimen/accounts_no_transaction_text_size"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:id="@+id/lp_loading_transactions"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginHorizontal="@dimen/ll_account_transactions_margin_horizontal"
         android:id="@+id/ll_acc_transactions">
 
