@@ -32,6 +32,10 @@ class AccountTransactions : AppCompatActivity() {
             accNum = intent.getIntExtra(Constants.ACCOUNT_NUMBER, -1)
         }
 
+        supportActionBar?.title = "Transactions in XX$accNum"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+
         if (accNum != -1) {
             val ioScope = CoroutineScope(Dispatchers.IO)
             ioScope.launch {

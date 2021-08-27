@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
     android:gravity="center"
-    android:orientation="vertical"
-    android:backgroundTint="@color/light_grey">
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,7 +25,8 @@
         android:id="@+id/tv_accounts"
         android:layout_gravity="center"
         android:textStyle="bold"
-        android:textSize="@dimen/accounts_text_sz"/>
+        android:textSize="@dimen/accounts_text_sz"
+        android:layout_marginVertical="@dimen/accounts_text_margin_vertical"/>
 
     <LinearLayout
         android:layout_width="match_parent"

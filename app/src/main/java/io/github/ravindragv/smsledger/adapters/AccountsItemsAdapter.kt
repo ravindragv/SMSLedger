@@ -20,7 +20,7 @@ class AccountsItemsAdapter(private val context: Context, private var list:List<I
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is AccountsViewHolder) {
-            holder.binding.tvAccNum.text = list[position].toString()
+            holder.binding.tvAccNum.text = "XX"+list[position].toString()
 
             holder.binding.root.setOnClickListener {
                 mOnClickListener.onClick(list[position])

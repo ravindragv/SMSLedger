@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SMSLedger</string>
+    <string name="app_name">SMS Ledger</string>
     <string name="no_transactions">No Transactions. Nothing show yet!</string>
     <string name="accounts">Accounts</string>
 

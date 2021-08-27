@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="accounts_text_sz">20sp</dimen>
+    <dimen name="accounts_text_sz">28sp</dimen>
+    <dimen name="accounts_text_margin_vertical">25dp</dimen>
     <dimen name="accounts_card_view_stroke_width">1dp</dimen>
     <dimen name="accounts_card_view_padding">10dp</dimen>
     <dimen name="accounts_card_view_corner_radius">10dp</dimen>
@@ -20,7 +21,8 @@
     <dimen name="ll_account_transactions_margin_horizontal">10dp</dimen>
 
     <dimen name="item_account_transaction_text_sz">17sp</dimen>
-    <dimen name="item_account_transaction_cv_margin">2.5dp</dimen>
+    <dimen name="item_account_transaction_cv_margin_vertical">2.5dp</dimen>
+    <dimen name="item_account_transaction_cv_margin_horizontal">10dp</dimen>
     <dimen name="item_account_transaction_cv_elevation">8dp</dimen>
     <dimen name="item_account_transaction_cv_max_elevation">10dp</dimen>
     <dimen name="item_account_transaction_cv_corner_radius">4dp</dimen>

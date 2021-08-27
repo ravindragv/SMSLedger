@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_margin="@dimen/item_account_transaction_cv_margin"
+    android:layout_marginVertical="@dimen/item_account_transaction_cv_margin_vertical"
+    android:layout_marginHorizontal="@dimen/item_account_transaction_cv_margin_horizontal"
     android:elevation="@dimen/item_account_transaction_cv_elevation"
     app:cardMaxElevation="@dimen/item_account_transaction_cv_max_elevation"
-    app:cardCornerRadius="@dimen/item_account_transaction_cv_corner_radius">
+    app:cardCornerRadius="@dimen/item_account_transaction_cv_corner_radius"
+    android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,4 +83,4 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
