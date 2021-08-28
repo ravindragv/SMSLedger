@@ -36,11 +36,10 @@ class SMSInboxWorker(private val appContext: Context, workerParams: WorkerParame
                             accNum.toString().contains(smallAccNum.toString())
                         ) {
                             val smallAccTrans = mTdb.getAllTransactions(smallAccNum)
-                            mTdb.deleteAllTransactions(smallAccNum)
                             for (transaction in smallAccTrans) {
                                 transaction.accNumber = accNum
                             }
-                            mTdb.insertTransactions(smallAccTrans)
+                            mTdb.deleteAndInsert(smallAccNum, smallAccTrans)
                         }
                     }
                 }

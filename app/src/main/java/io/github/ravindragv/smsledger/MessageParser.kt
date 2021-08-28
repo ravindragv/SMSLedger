@@ -129,8 +129,8 @@ class MessageParser {
         var pos = getPos(message)
         if (pos.isEmpty()) {
             pos = when (transactionType) {
-                TransactionType.CREDIT -> "credit"
-                TransactionType.DEBIT -> "debit"
+                TransactionType.CREDIT -> "Credit"
+                TransactionType.DEBIT -> "Debit"
                 else -> "Unknown POS"
             }
         }

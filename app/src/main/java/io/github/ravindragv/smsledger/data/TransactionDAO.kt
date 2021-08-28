@@ -20,4 +20,10 @@ interface TransactionDAO {
 
     @Query("SELECT DISTINCT accNumber FROM ${Constants.TRANSACTIONS_ROOM_DB_NAME}")
     suspend fun getAllAccounts() : List<Int>
+
+    @androidx.room.Transaction
+    suspend fun deleteAndInsert(accNum: Int, transactions: List<Transaction>) {
+        deleteAllTransactions(accNum)
+        insertTransactions(transactions)
+    }
 }
