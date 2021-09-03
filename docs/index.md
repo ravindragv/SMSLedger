@@ -15,3 +15,7 @@ With SMS Ledger you don't need to dig through all the spam to get the actual fin
 * No Ads (Ever!)
 * No internet access required. (All your SMS stay on your phone, we do all the processing on your phone!)
 + Supports dark mode (We love shopping in the night too!)
+
+## Get the app now! ##
+
+<a href='https://play.google.com/store/apps/details?id=io.github.ravindragv.smsledger&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width='215'/></a>
