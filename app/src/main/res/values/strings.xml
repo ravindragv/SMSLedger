@@ -9,4 +9,7 @@
     <string name="sample_acc_num">XXX6578</string>
     <string name="right_arrow">></string>
     <string name="transactions">Transactions</string>
+
+    <string name="channel_name">Incoming Transactions</string>
+    <string name="channel_description">For all incoming financial transactions</string>
 </resources>

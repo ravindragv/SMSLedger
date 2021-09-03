@@ -1,9 +1,12 @@
 package io.github.ravindragv.smsledger.activities
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val READ_TELEPHONY = 1
         const val IS_INBOX_READ = "is_inbox_read"
+        const val CHANNEL_ID = "SMS_Ledger_Transaction"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,11 +50,28 @@ class MainActivity : AppCompatActivity() {
         setUpViews(isInboxRead)
         requestPermissionsToReadSMS()
 
+        createNotificationChannel()
+
         mTransactionDB = TransactionDB.getInstance(this)
 
         val scope = CoroutineScope(context = Dispatchers.Main)
         scope.launch {
             setUpAccountsView()
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
     }
 

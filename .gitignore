@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+/graphics
+/app/release
